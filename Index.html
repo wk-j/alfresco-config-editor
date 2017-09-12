@@ -4,6 +4,7 @@
 	<title>Empty</title>
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/theme/seti.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.js"></script>
@@ -11,19 +12,12 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/javascript/javascript.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/xml/xml.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/css/css.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/elm/elm.js"></script>
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/htmlmixed/htmlmixed.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/properties/properties.js"></script>
 
 	<link rel="stylesheet" href="Style.css">
-
-	<style>
-		html {
-			padding: 10px;
-		}
-		body {
-			max-width: 1200;
-		}
-	</style>
 </head>
 
 <body>
@@ -32,7 +26,7 @@
 	<div class="ui grid">
 			<div class="row">
 				<div class="ten wide column">
-					<div class="ui segment" style="width:100%">
+					<div class="ui raised segment" style="width:100%; padding:0">
 						<div id="code-editor"></div>
 					</div>
 				</div>
@@ -46,7 +40,10 @@
 
 	<script>
 		let editor = CodeMirror(document.getElementById("code-editor"), {
-			mode: "javascript"
+			mode: "javascript",
+			theme: "seti",
+			lineNumbers: true,
+			tabSize: 2
 		});
 
 		let container = document.getElementById("tree-view");
