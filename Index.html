@@ -1,0 +1,40 @@
+<html>
+	<head>
+		<title>License Manager</title>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.css">
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/javascript/javascript.js"></script>
+
+		<style>
+			body {
+				max-width: 1200px;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<script src="dist/Main.js"></script>
+
+		<div id="container"/>
+
+		<div id="editor" style="max-width:1000px"/>
+
+		<script>
+			let container = document.getElementById('container')
+			// start the elm app in the container
+			// and keep a reference for communicating with the app
+			let feldspar = Elm.Main.embed(container)
+		</script>
+
+		<script>
+			var myCodeMirror = CodeMirror(document.getElementById("editor"), {
+				value: "function myScript(){return 100;}\n",
+				mode:  "javascript"
+			});
+		</script>
+	</body>
+</html>
