@@ -4,10 +4,11 @@ import Model exposing (..)
 import Html exposing (..)
 
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 
-editorFileItem : FileItem -> Html Msg
-editorFileItem file = 
-    div [ class "item" ]
+fileItem : FileItem -> Html Msg
+fileItem file = 
+    div [ class "item c-file-item", onClick (GetFileContentRequest file.fullName) ]
         [ i [ class "file outline icon" ] []
           , div [ class "content" ]
                 [ div [ class "header" ] [ text (file.name) ]
@@ -15,21 +16,20 @@ editorFileItem file =
                 ]
         ]
 
-folderItem : Folder -> List(Html Msg)
-folderItem (Folder ls) = 
-    (ls |> List.map editorFolderItem)
+foldersItem : Folder -> List(Html Msg)
+foldersItem (Folder ls) = 
+    (ls |> List.map folderItem)
 
-editorFolderItem : Structure -> Html Msg
-editorFolderItem str = 
+folderItem : Structure -> Html Msg
+folderItem str = 
     div [ class "item" ]
-        [ i [ class "file outline icon" ] []
+        [ i [ class "folder icon" ] []
           , div [ class "content" ]
                 [ div [ class "header" ] [ text (str.name) ]
-                -- , div [ class "description" ] [ text (str.fullName) ]
                 , div [ class "list"]
                     (List.append
-                        (folderItem str.folders)
-                        (str.files |> List.map editorFileItem)
+                        (foldersItem str.folders)
+                        (str.files |> List.map fileItem)
                     )
                 ]
         ]
@@ -50,8 +50,8 @@ editorList model =
                         [ text (str.fullName) ]
                     , div [ class "list" ]
                         (List.append
-                            (folderItem model.structure.folders)
-                            (model.structure.files |> List.map editorFileItem)
+                            (foldersItem model.structure.folders)
+                            (model.structure.files |> List.map fileItem)
                         )
                     ]
                 ]

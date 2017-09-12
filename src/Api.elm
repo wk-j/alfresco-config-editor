@@ -8,6 +8,22 @@ import Model exposing (..)
 host : String
 host = "http://localhost:5000"
 
+getFileContent : String -> Cmd Msg
+getFileContent path =
+    let 
+        url = host ++ "/api/home/getFileContent"
+    in
+        Http.send
+            GetFileContentResult
+            (Http.request
+                { method = "POST"
+                , headers = [(Http.header "Content-Type" "application/json")]
+                , url = url
+                , body = encodeRequest path |>  Http.jsonBody
+                , expect = Http.expectString
+                , timeout = Nothing
+                , withCredentials = False })
+
 getStructures : String -> Cmd Msg
 getStructures path = 
     let 

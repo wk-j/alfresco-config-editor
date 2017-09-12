@@ -26,7 +26,20 @@ update msg model =
             ! [Cmd.none]
         
         GetStructuresResult (Err _) ->
-            (model, Cmd.none)
+            model
+            ! [Cmd.none]
+
+        GetFileContentRequest path ->
+            model
+            ! [getFileContent path]
+
+        GetFileContentResult (Err _) ->
+            model
+            ! [Cmd.none]
+
+        GetFileContentResult (Ok content) ->
+            model
+            ! [Cmd.none]
 
 view : Model -> Html Msg
 view model = editorUi model

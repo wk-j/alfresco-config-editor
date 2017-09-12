@@ -18,6 +18,8 @@ type alias Structure =
 type Folder = Folder (List Structure)
 
 type Msg 
-    = GetStructuresResult (Result Http.Error (Structure))
-    | GetStructuresRequest String
+    = GetStructuresRequest String
+    | GetStructuresResult (Result Http.Error (Structure))
+    | GetFileContentRequest String
+    | GetFileContentResult (Result Http.Error (String))
 

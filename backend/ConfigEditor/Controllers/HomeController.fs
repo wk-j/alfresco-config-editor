@@ -9,7 +9,7 @@ open System.IO
 open System.Collections.Generic
 open System.Linq
 
-type Requery = {
+type Query = {
     Path: string
 }
 
@@ -70,7 +70,7 @@ type HomeController () =
         (str)
 
     [<HttpPost>]
-    member this.GetStructures([<FromBody>] req: Requery) = 
+    member this.GetStructures([<FromBody>] req: Query) = 
         if req.Path = "/" then
             Folder(Name="</>")
         elif Directory.Exists req.Path then
@@ -78,3 +78,10 @@ type HomeController () =
             query str req.Path
         else
             Folder(Name="<Empty>")
+
+    [<HttpPost>]
+    member this.GetFileContent([<FromBody>] req: Query) = 
+        if File.Exists req.Path then
+            File.ReadAllText req.Path
+        else
+            "-- Error --"
