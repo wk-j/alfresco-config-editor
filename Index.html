@@ -7,7 +7,13 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.js"></script>
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/javascript/javascript.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/xml/xml.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/css/css.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/htmlmixed/htmlmixed.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/properties/properties.js"></script>
+
 	<link rel="stylesheet" href="Style.css">
 
 	<style>
@@ -44,10 +50,16 @@
 		});
 
 		let container = document.getElementById("tree-view");
-		let app = Elm.Main.embed(container, { message: "Hello, world!"});
+		let app = Elm.Main.embed(container);
 
-		app.ports.setValue.subscribe((content) => {
+		app.ports.setValue.subscribe((contentMode) => {
+			let content = contentMode [0];
+			let mode = contentMode [1];
+
+			console.log(mode);
+
 			editor.setValue(content);
+			editor.setOption("mode", mode);
 		});
 	</script>
 </body>

@@ -8,7 +8,7 @@ import Html.Events exposing (..)
 
 fileItem : FileItem -> Html Msg
 fileItem file = 
-    div [ class "item c-file-item", onClick (GetFileContentRequest file.fullName) ]
+    div [ class "item c-file-item", onClick (GetFileContentRequest file.mode file.fullName) ]
         [ i [ class "file outline icon" ] []
           , div [ class "content" ]
                 [ div [ class "header" ] [ text (file.name) ]

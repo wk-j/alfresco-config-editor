@@ -16,6 +16,7 @@ type Query = {
 type File() = 
     member val Name = "" with set,get
     member val FullName = "" with set,get
+    member val Mode = "xml" with set,get
 
 type Folder() = 
     member val Name = "" with set,get
@@ -48,6 +49,20 @@ type HomeController () =
             ".css"
         ]
         format.Any <| Func<_,_>(info.Name.EndsWith)
+
+
+    let findMode ext = 
+        match ext with
+        | ".js" | ".jsx" -> "javascript"
+        | ".ts" | ".tsx" -> "typescript"
+        | ".css" -> "css"
+        | ".properties" -> "properties"
+        | ".csproj" | ".fsproj" | "xml" -> "xml"
+        | ".json" -> "json"
+        | ".fs" | ".fsx" -> "fsharp"
+        | ".cs" | ".csx" -> "csharp"
+        | ".html" -> "htmlmixed"
+        | _ -> "xml"
     
     let rec query (str: Folder) path = 
         let dir = DirectoryInfo path
@@ -66,7 +81,7 @@ type HomeController () =
 
         str.Name <- dir.Name
         str.FullName <- dir.FullName
-        str.Files <- files.Select(fun x -> File(Name = x.Name, FullName = x.FullName) ).ToList()
+        str.Files <- files.Select(fun x -> File(Name = x.Name, FullName = x.FullName, Mode = findMode (Path.GetExtension x.FullName)) ).ToList()
         (str)
 
     [<HttpPost>]

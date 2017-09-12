@@ -1,15 +1,12 @@
 module Model exposing (..)
 import Http
 
-type alias Editor = 
-    { message : String }
-
 type alias Model = 
-    { structure : Structure
-    , editor: Editor }
+    { structure : Structure }
 
 type alias FileItem = 
     { name: String
+    , mode: String
     , fullName: String }
 
 type alias Structure =
@@ -23,6 +20,6 @@ type Folder = Folder (List Structure)
 type Msg 
     = GetStructuresRequest String
     | GetStructuresResult (Result Http.Error (Structure))
-    | GetFileContentRequest String
-    | GetFileContentResult (Result Http.Error (String))
+    | GetFileContentRequest String String
+    | GetFileContentResult String (Result Http.Error (String))
 

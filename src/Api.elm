@@ -8,13 +8,13 @@ import Model exposing (..)
 host : String
 host = "http://localhost:5000"
 
-getFileContent : String -> Cmd Msg
-getFileContent path =
+getFileContent : String -> String -> Cmd Msg
+getFileContent mode path =
     let 
         url = host ++ "/api/home/getFileContent"
     in
         Http.send
-            GetFileContentResult
+            (GetFileContentResult mode)
             (Http.request
                 { method = "POST"
                 , headers = [(Http.header "Content-Type" "application/json")]
@@ -47,8 +47,9 @@ encodeRequest path =
 
 decodeFile : Json.Decoder FileItem
 decodeFile = 
-    Json.map2 FileItem
+    Json.map3 FileItem
         (field "name" string)
+        (field "mode" string)
         (field "fullName" string)
 
 decodeStructure : Json.Decoder Structure

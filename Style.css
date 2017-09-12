@@ -16,3 +16,11 @@
     color: green;
     cursor: pointer;
 }
+
+div.CodeMirror {
+    height: 100%;
+}
+
+div.ui.segment { 
+    padding: 10px;
+}

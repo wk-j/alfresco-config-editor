@@ -3,15 +3,15 @@ import Api exposing (..)
 import Model exposing (..)
 import View exposing (..)
 import Editor exposing (..)
-import Debug
 
-main : Program Editor Model Msg
+main : Program Never Model Msg
 main =
-    Html.programWithFlags
+    Html.program
         { init = init
         , view = view
         , update = update
         , subscriptions = subscriptions }
+
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -28,17 +28,17 @@ update msg model =
             model
             ! [Cmd.none]
 
-        GetFileContentRequest path ->
+        GetFileContentRequest mode path ->
             model
-            ! [getFileContent path]
+            ! [getFileContent mode path]
 
-        GetFileContentResult (Err _) ->
+        GetFileContentResult mode (Err _) ->
             model
             ! [Cmd.none]
 
-        GetFileContentResult (Ok content) ->
+        GetFileContentResult mode (Ok content) ->
                 model
-                ! [setValue content]
+                ! [setValue (content, mode)]
 
 view : Model -> Html Msg
 view model = editorUi model
@@ -46,20 +46,17 @@ view model = editorUi model
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
+    
 
-emptyModel : Editor -> Model 
-emptyModel editor = 
-    let 
-        _ = Debug.log ">> " editor.message 
-    in
-        { structure = 
-            { name = ""
-            , fullName = ""
-            , files = []
-            , folders = Folder [] }
-        , editor = editor }
+emptyModel : Model 
+emptyModel = 
+    { structure = 
+        { name = ""
+        , fullName = ""
+        , files = []
+        , folders = Folder [] } }
 
-init : Editor -> (Model, Cmd Msg)
-init editor = 
-    emptyModel editor
+init : (Model, Cmd Msg)
+init = 
+    emptyModel
     ! [getStructures "/Users/wk/Source/project/alfresco-config-editor"]
