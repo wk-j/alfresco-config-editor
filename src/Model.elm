@@ -8,12 +8,14 @@ type alias FileItem =
     { name: String
     , fullName: String }
 
-type alias Structure  =
-    { name: String
-    , fullName: String
-    , files: List FileItem
-    -- , folders: List Structure
-    }
+type alias Structure =
+        { name: String
+        , fullName: String
+        , files: List FileItem
+        , folders: Folder
+        }
+
+type Folder = Folder (List Structure)
 
 type Msg 
     = GetStructuresResult (Result Http.Error (Structure))

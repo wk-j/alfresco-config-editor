@@ -1,4 +1,4 @@
-namespace EditorConfig.Controllers
+namespace ConfigEditor.Controllers
 
 open System
 open System.Collections.Generic
@@ -30,6 +30,7 @@ type HomeController () =
         let names = [
             ".git"
             "node_modules"
+            "elm-stuff"
             "bin"
             "obj"
         ]

@@ -1,4 +1,4 @@
-﻿namespace EditorConfig.Controllers
+﻿namespace ConfigEditor.Controllers
 
 open System
 open System.Collections.Generic

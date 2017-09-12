@@ -6,6 +6,9 @@
         "**/CVS": true,
         "**/.DS_Store": true,
         "**/bin": true,
-        "**/obj": true
+        "**/obj": true,
+        "elm-stuff": true,
+        "tools": true,
+        "dist": true
     }
 }

@@ -35,13 +35,14 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
 
-emptyModel : { structure : { files : List a, fullName : String, name : String } }
+emptyModel : Model 
 emptyModel = 
     { structure = 
         { name = ""
         , fullName = ""
         , files = []
-    }}
+        , folders = Folder [] }
+    }
 
 init : (Model, Cmd Msg)
 init = 

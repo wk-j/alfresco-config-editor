@@ -1,0 +1,8 @@
+
+#tree-view {
+    overflow: scroll;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}

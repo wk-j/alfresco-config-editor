@@ -1,4 +1,4 @@
-namespace EditorConfig
+namespace ConfigEditor
 
 open System
 open System.Collections.Generic

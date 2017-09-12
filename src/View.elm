@@ -11,7 +11,26 @@ editorFileItem file =
         [ i [ class "file outline icon" ] []
           , div [ class "content" ]
                 [ div [ class "header" ] [ text (file.name) ]
-                , div [ class "description" ] [ text (file.fullName) ]
+                -- , div [ class "description" ] [ text (file.fullName) ]
+                ]
+        ]
+
+folderItem : Folder -> List(Html Msg)
+folderItem (Folder ls) = 
+    (ls |> List.map editorFolderItem)
+
+editorFolderItem : Structure -> Html Msg
+editorFolderItem str = 
+    div [ class "item" ]
+        [ i [ class "file outline icon" ] []
+          , div [ class "content" ]
+                [ div [ class "header" ] [ text (str.name) ]
+                -- , div [ class "description" ] [ text (str.fullName) ]
+                , div [ class "list"]
+                    (List.append
+                        (folderItem str.folders)
+                        (str.files |> List.map editorFileItem)
+                    )
                 ]
         ]
 
@@ -30,7 +49,10 @@ editorList model =
                     , div [ class "description" ]
                         [ text (str.fullName) ]
                     , div [ class "list" ]
-                        (model.structure.files |> List.map editorFileItem)
+                        (List.append
+                            (folderItem model.structure.folders)
+                            (model.structure.files |> List.map editorFileItem)
+                        )
                     ]
                 ]
             ]

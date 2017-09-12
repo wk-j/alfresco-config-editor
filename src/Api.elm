@@ -1,7 +1,7 @@
 module Api exposing (..)
 
 import Json.Encode as Encode
-import Json.Decode as Json exposing (string, field, list)
+import Json.Decode as Json exposing (string, field, list, lazy, map)
 import Http
 import Model exposing (..)
 
@@ -37,9 +37,8 @@ decodeFile =
 
 decodeStructure : Json.Decoder Structure
 decodeStructure =
-    Json.map3 Structure
-        (field "name" string)
-        (field "fullName" string)
-        (field "files"  (list decodeFile))
-        -- (field "folders" (list ))
-
+     Json.map4 Structure
+         (field "name" string)
+         (field "fullName" string)
+         (field "files"  (list decodeFile))
+         (field "folders" (map Folder (list (lazy (\_ -> decodeStructure)))))
