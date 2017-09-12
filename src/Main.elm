@@ -22,13 +22,14 @@ update msg model =
             ! [getStructures "/Users/wk/Source/project/alfresco-config-editor"]
 
         GetStructuresResult (Ok structure) ->
-            (model, Cmd.none)
+            { model | structure = structure }
+            ! [Cmd.none]
         
         GetStructuresResult (Err _) ->
             (model, Cmd.none)
 
 view : Model -> Html Msg
-view model = ui model
+view model = editorUi model
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
