@@ -22,6 +22,11 @@ type Startup private () =
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     member this.Configure(app: IApplicationBuilder, env: IHostingEnvironment) =
-        app.UseMvc() |> ignore
+        //app.UseMvc() |> ignore
+        app.UseMvc(fun routes ->
+            routes.MapRoute(
+                name = "default",
+                template = "api/{controller=Home}/{action=Index}/{id?}") |> ignore
+            ) |> ignore
 
     member val Configuration : IConfiguration = null with get, set
