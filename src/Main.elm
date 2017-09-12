@@ -1,18 +1,17 @@
 import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
 import Api exposing (..)
 import Model exposing (..)
 import View exposing (..)
+import Editor exposing (..)
+import Debug
 
-main : Program Never Model Msg
+main : Program Editor Model Msg
 main =
-    Html.program
+    Html.programWithFlags
         { init = init
         , view = view
         , update = update
-        , subscriptions = subscriptions
-    }
+        , subscriptions = subscriptions }
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -38,8 +37,8 @@ update msg model =
             ! [Cmd.none]
 
         GetFileContentResult (Ok content) ->
-            model
-            ! [Cmd.none]
+                model
+                ! [setValue content]
 
 view : Model -> Html Msg
 view model = editorUi model
@@ -48,16 +47,19 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
 
-emptyModel : Model 
-emptyModel = 
-    { structure = 
-        { name = ""
-        , fullName = ""
-        , files = []
-        , folders = Folder [] }
-    }
+emptyModel : Editor -> Model 
+emptyModel editor = 
+    let 
+        _ = Debug.log ">> " editor.message 
+    in
+        { structure = 
+            { name = ""
+            , fullName = ""
+            , files = []
+            , folders = Folder [] }
+        , editor = editor }
 
-init : (Model, Cmd Msg)
-init = 
-    emptyModel
+init : Editor -> (Model, Cmd Msg)
+init editor = 
+    emptyModel editor
     ! [getStructures "/Users/wk/Source/project/alfresco-config-editor"]

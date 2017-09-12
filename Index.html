@@ -26,7 +26,7 @@
 	<div class="ui grid">
 			<div class="row">
 				<div class="ten wide column">
-					<div class="ui segment">
+					<div class="ui segment" style="width:100%">
 						<div id="code-editor"></div>
 					</div>
 				</div>
@@ -39,14 +39,15 @@
 	</div>
 
 	<script>
-		let container = document.getElementById("tree-view")
-		let feldspar = Elm.Main.embed(container)
-	</script>
-
-	<script>
-		var myCodeMirror = CodeMirror(document.getElementById("code-editor"), {
-			value: "",
+		let editor = CodeMirror(document.getElementById("code-editor"), {
 			mode: "javascript"
+		});
+
+		let container = document.getElementById("tree-view");
+		let app = Elm.Main.embed(container, { message: "Hello, world!"});
+
+		app.ports.setValue.subscribe((content) => {
+			editor.setValue(content);
 		});
 	</script>
 </body>

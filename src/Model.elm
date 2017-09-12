@@ -1,8 +1,12 @@
 module Model exposing (..)
 import Http
 
+type alias Editor = 
+    { message : String }
+
 type alias Model = 
-    { structure : Structure }
+    { structure : Structure
+    , editor: Editor }
 
 type alias FileItem = 
     { name: String
@@ -12,8 +16,7 @@ type alias Structure =
         { name: String
         , fullName: String
         , files: List FileItem
-        , folders: Folder
-        }
+        , folders: Folder }
 
 type Folder = Folder (List Structure)
 
