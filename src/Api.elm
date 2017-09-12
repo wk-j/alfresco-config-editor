@@ -3,24 +3,10 @@ module Api exposing (..)
 import Json.Encode as Encode
 import Json.Decode as Json exposing (string, field, list)
 import Http
+import Model exposing (..)
 
 host : String
-host = "http://localhost:"
-
-type alias FileItem = 
-    { name: String
-    , fullName: String }
-
-type alias Structure  =
-    { name: String
-    , fullName: String
-    , files: List FileItem
-    -- , folders: List Structure
-    }
-
-type Msg 
-    = GetStructuresResult (Result Http.Error (Structure))
-    | GetStructuresRequest String
+host = "http://localhost:5000"
 
 getStructures : String -> Cmd Msg
 getStructures path = 
