@@ -1,40 +1,50 @@
 <html>
-	<head>
-		<title>License Manager</title>
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.css">
+<head>
+	<title>Empty</title>
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/javascript/javascript.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
 
-		<style>
-			body {
-				max-width: 1200px;
-			}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/codemirror.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/javascript/javascript.js"></script>
 
-		</style>
-	</head>
-	<body>
+	<style>
+		html {
+			padding: 10px;
+		}
+	</style>
+</head>
 
-		<script src="dist/Main.js"></script>
+<body>
 
-		<div id="container"/>
+	<script src="dist/Main.js"></script>
+	<div class="ui grid">
+			<div class="row">
+				<div class="twelve wide column">
+					<div class="ui segment">
+						<div id="code-editor"></div>
+					</div>
+				</div>
+				<div class="four wide column">
+					<div class="ui segment">
+						<div id="tree-view"></div>
+					</div>
+				</div>
+			</div>
+	</div>
 
-		<div id="editor" style="max-width:1000px"/>
+	<script>
+		let container = document.getElementById("tree-view")
+		let feldspar = Elm.Main.embed(container)
+	</script>
 
-		<script>
-			let container = document.getElementById('container')
-			// start the elm app in the container
-			// and keep a reference for communicating with the app
-			let feldspar = Elm.Main.embed(container)
-		</script>
+	<script>
+		var myCodeMirror = CodeMirror(document.getElementById("code-editor"), {
+			value: "",
+			mode: "javascript"
+		});
+	</script>
+</body>
 
-		<script>
-			var myCodeMirror = CodeMirror(document.getElementById("editor"), {
-				value: "function myScript(){return 100;}\n",
-				mode:  "javascript"
-			});
-		</script>
-	</body>
 </html>
