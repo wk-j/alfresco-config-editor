@@ -1,3 +1,5 @@
 port module Editor exposing (..)
 
-port setValue : (String, String) -> Cmd msg
+import Model exposing (..)
+
+port setEditorContent : (EditorContent) -> Cmd msg

@@ -23,6 +23,7 @@
 <body>
 
 	<script src="dist/Main.js"></script>
+
 	<div class="ui grid">
 			<div class="row">
 				<div class="ten wide column">
@@ -49,11 +50,9 @@
 		let container = document.getElementById("tree-view");
 		let app = Elm.Main.embed(container);
 
-		app.ports.setValue.subscribe((contentMode) => {
-			let content = contentMode [0];
-			let mode = contentMode [1];
-
-			console.log(mode);
+		app.ports.setEditorContent.subscribe((x) => {
+			let content = x.content;
+			let mode = x.mode; 
 
 			editor.setValue(content);
 			editor.setOption("mode", mode);

@@ -12,7 +12,6 @@ main =
         , update = update
         , subscriptions = subscriptions }
 
-
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
@@ -28,17 +27,29 @@ update msg model =
             model
             ! [Cmd.none]
 
-        GetFileContentRequest mode path ->
+        GetFileContentRequest editorContent ->
             model
-            ! [getFileContent mode path]
+            ! [getFileContent editorContent]
 
-        GetFileContentResult mode (Err _) ->
-            model
+        GetFileContentResult editorContent (Err _) ->
+            { model | currentPath = editorContent.path }
             ! [Cmd.none]
 
         GetFileContentResult mode (Ok content) ->
                 model
-                ! [setValue (content, mode)]
+                ! [ setEditorContent ({ mode | content = content })]
+
+        SaveFileContentRequest request ->
+            model
+            ! [Cmd.none]
+
+        SaveFileContentResult (Ok str) ->
+            model
+            ! [Cmd.none]
+
+        SaveFileContentResult (Err str) ->
+            model
+            ! [Cmd.none]
 
 view : Model -> Html Msg
 view model = editorUi model
@@ -54,7 +65,8 @@ emptyModel =
         { name = ""
         , fullName = ""
         , files = []
-        , folders = Folder [] } }
+        , folders = Folder [] }
+    , currentPath = "" }
 
 init : (Model, Cmd Msg)
 init = 

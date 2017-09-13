@@ -8,18 +8,37 @@ import Model exposing (..)
 host : String
 host = ""
 
-getFileContent : String -> String -> Cmd Msg
-getFileContent mode path =
+headers : List Http.Header
+headers = [(Http.header "Content-Type" "application/json")]
+
+saveFileContent : FileContent -> Cmd Msg
+saveFileContent fileContent = 
+    let 
+        url = host ++ "/api/home/saveFileContent"
+    in
+        Http.send
+           SaveFileContentResult
+           (Http.request
+                { method = "POST" 
+                , headers = headers
+                , url = url
+                , body = encodeSaveRequest fileContent |> Http.jsonBody
+                , expect = Http.expectString
+                , timeout = Nothing
+                , withCredentials = False })
+
+getFileContent : EditorContent -> Cmd Msg
+getFileContent content =
     let 
         url = host ++ "/api/home/getFileContent"
     in
         Http.send
-            (GetFileContentResult mode)
+            (GetFileContentResult { mode = content.mode, path = content.path, content =  ""})
             (Http.request
                 { method = "POST"
                 , headers = [(Http.header "Content-Type" "application/json")]
                 , url = url
-                , body = encodeRequest path |>  Http.jsonBody
+                , body = encodeRequest content.path |>  Http.jsonBody
                 , expect = Http.expectString
                 , timeout = Nothing
                 , withCredentials = False })
@@ -39,6 +58,15 @@ getStructures path =
                 , expect = Http.expectJson decodeStructure
                 , timeout = Nothing
                 , withCredentials = False })
+
+
+encodeSaveRequest : FileContent -> Encode.Value
+encodeSaveRequest content = 
+    [ ("path", Encode.string content.path)
+    , ("content", Encode.string content.content)
+    ]
+    |> Encode.object
+
 
 encodeRequest : String -> Encode.Value
 encodeRequest path = 

@@ -24,8 +24,21 @@ type Folder() =
     member val Folders = Enumerable.Empty<Folder>() with set,get
     member val Files = Enumerable.Empty<File>()  with set,get
 
+
+type SaveFileRequest = {
+    Path: string
+    Content: string
+}
+
+type Result = {
+    Success: bool
+    Message: string
+}
+
 type HomeController () =
     inherit Controller()
+
+    let errorContent = "-- error --"
 
     let notMatchDir(info: DirectoryInfo) = 
         let names = [
@@ -101,4 +114,15 @@ type HomeController () =
         if File.Exists req.Path then
             File.ReadAllText req.Path
         else
-            "-- Error --"
+            "-- error --"
+
+    [<HttpPost>]
+    member this.SaveFileContent([<FromBody>] req: SaveFileRequest) = 
+        if File.Exists req.Path then
+            if req.Content = errorContent then
+                { Success = false; Message = "Invalid content"}
+            else
+                File.WriteAllText(req.Path, req.Content) 
+                { Success = true; Message = "" }
+        else
+            { Success = false; Message = "File not exist" }

@@ -2,7 +2,8 @@ module Model exposing (..)
 import Http
 
 type alias Model = 
-    { structure : Structure }
+    { structure : Structure
+    , currentPath : String }
 
 type alias FileItem = 
     { name: String
@@ -17,9 +18,30 @@ type alias Structure =
 
 type Folder = Folder (List Structure)
 
+type alias FileContent = 
+    { path: String
+    , content: String }
+
+type alias EMode = String
+type alias EContent = String
+type alias EPath = String
+
+--type alias ContentMode = 
+--    { mode: String
+--    , content: String }
+
+type alias EditorContent =
+    { mode: EMode 
+    , content: EContent 
+    , path: EPath }
+
 type Msg 
     = GetStructuresRequest String
     | GetStructuresResult (Result Http.Error (Structure))
-    | GetFileContentRequest String String
-    | GetFileContentResult String (Result Http.Error (String))
+    | GetFileContentRequest EditorContent 
+    | GetFileContentResult EditorContent (Result Http.Error (String))
+    | SaveFileContentRequest FileContent
+    | SaveFileContentResult  (Result Http.Error (String))
+
+
 

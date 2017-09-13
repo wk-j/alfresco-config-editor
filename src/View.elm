@@ -6,9 +6,21 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
+buttons_ : Html msg
+buttons_ = 
+    div [ class "ui small basic icon buttons" ]
+        [ button [ class "ui button active" ]
+            [ i [ class "save icon" ] []
+            ]
+        , button [ class "ui button" ]
+            [ i [ class "download icon" ] []
+            ]
+        ]
+
+
 fileItem : FileItem -> Html Msg
 fileItem file = 
-    div [ class "item c-file-item", onClick (GetFileContentRequest file.mode file.fullName) ]
+    div [ class "item c-file-item", onClick (GetFileContentRequest { mode = file.mode, path = file.fullName, content = ""}) ]
         [ i [ class "file outline icon" ] []
           , div [ class "content" ]
                 [ div [ class "header" ] [ text (file.name) ]
@@ -59,4 +71,6 @@ editorList model =
 
 editorUi : Model -> Html Msg
 editorUi model = 
-    div [] [ editorList model ]
+    div [] 
+        [ buttons_
+        , editorList model ]
