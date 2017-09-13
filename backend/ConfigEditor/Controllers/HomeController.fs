@@ -59,6 +59,7 @@ type HomeController () =
             ".elm"
             ".cs"
             ".fs"
+            ".md"
             ".fsproj"
             ".css"
         ]
@@ -77,6 +78,7 @@ type HomeController () =
         | ".cs" | ".csx" -> "csharp"
         | ".html" -> "htmlmixed"
         | ".elm" -> "elm"
+        | ".md" -> "markdown"
         | _ -> "xml"
     
     let rec query (str: Folder) path = 

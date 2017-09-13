@@ -16,6 +16,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/htmlmixed/htmlmixed.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/properties/properties.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.29.0/mode/markdown/markdown.js"></script>
 
 	<link rel="stylesheet" href="Style.css">
 </head>
@@ -32,7 +33,7 @@
 					</div>
 				</div>
 				<div class="six wide column">
-					<div class="ui segment">
+					<div class="ui segment" style="height: 100%">
 						<div id="tree-view"></div>
 					</div>
 				</div>
@@ -57,6 +58,13 @@
 			editor.setValue(content);
 			editor.setOption("mode", mode);
 		});
+
+		// on and off handler like in jQuery
+		editor.on('change', function(cMirror){
+			let value = cMirror.getValue();
+			app.ports.receiveEditorContent.send(value);
+		});
+
 	</script>
 </body>
 

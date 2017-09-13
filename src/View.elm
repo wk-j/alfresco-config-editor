@@ -6,16 +6,20 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
-buttons_ : Html msg
-buttons_ = 
-    div [ class "ui small basic icon buttons" ]
-        [ button [ class "ui button active" ]
-            [ i [ class "save icon" ] []
+buttons : Model -> Html Msg
+buttons model = 
+    let 
+        dis = 
+            if model.currentContent == "" || model.saving then "ui button disabled"
+            else "ui button"
+    in
+        div [ ]
+            [
+                div [ class "ui small basic icon buttons" ]
+                    [ button [ class dis, onClick (SaveFileContentRequest { path = model.currentFile.fullName, content = model.currentContent }) ]
+                        [ i [ class "save icon" ] [] ]
+                    ]
             ]
-        , button [ class "ui button" ]
-            [ i [ class "download icon" ] []
-            ]
-        ]
 
 fileItem : FileItem -> Html Msg
 fileItem file = 
@@ -71,5 +75,5 @@ editorList model =
 editorUi : Model -> Html Msg
 editorUi model = 
     div [] 
-        [ buttons_
+        [ buttons model
         , editorList model ]

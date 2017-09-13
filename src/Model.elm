@@ -3,6 +3,8 @@ import Http
 
 type alias Model = 
     { structure : Structure
+    , saving : Bool
+    , currentContent: String
     , currentFile: FileItem }
 
 type alias FileItem = 
@@ -33,6 +35,7 @@ type Msg
     | GetFileContentResult (Result Http.Error (String))
     | SaveFileContentRequest FileContent
     | SaveFileContentResult  (Result Http.Error (String))
+    | ReceiveEditorContent String
 
 
 

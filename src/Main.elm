@@ -36,19 +36,23 @@ update msg model =
             ! [Cmd.none]
 
         GetFileContentResult (Ok content) ->
-            model
+            { model | currentContent = "" }
             ! [ setEditorContent ({ mode = model.currentFile.mode, content = content })]
 
         SaveFileContentRequest request ->
-            model
-            ! [Cmd.none]
+            { model | saving = True }
+            ! [saveFileContent request]
 
         SaveFileContentResult (Ok str) ->
-            model
+            { model | saving = False }
             ! [Cmd.none]
 
         SaveFileContentResult (Err str) ->
-            model
+            { model | saving = False }
+            ! [Cmd.none]
+
+        ReceiveEditorContent content ->
+            { model | currentContent = content }
             ! [Cmd.none]
 
 view : Model -> Html Msg
@@ -56,7 +60,7 @@ view model = editorUi model
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    receiveEditorContent ReceiveEditorContent
     
 emptyModel : Model 
 emptyModel = 
@@ -65,6 +69,8 @@ emptyModel =
         , fullName = ""
         , files = []
         , folders = Folder [] }
+    , currentContent = ""
+    , saving = False
     , currentFile = { mode = "", fullName = "", name = "" } }
 
 init : (Model, Cmd Msg)
