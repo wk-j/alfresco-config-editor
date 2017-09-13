@@ -6,7 +6,7 @@ import Http
 import Model exposing (..)
 
 host : String
-host = "http://localhost:5000"
+host = ""
 
 getFileContent : String -> String -> Cmd Msg
 getFileContent mode path =
