@@ -17,10 +17,9 @@ buttons_ =
             ]
         ]
 
-
 fileItem : FileItem -> Html Msg
 fileItem file = 
-    div [ class "item c-file-item", onClick (GetFileContentRequest { mode = file.mode, path = file.fullName, content = ""}) ]
+    div [ class "item c-file-item", onClick (GetFileContentRequest file) ]
         [ i [ class "file outline icon" ] []
           , div [ class "content" ]
                 [ div [ class "header" ] [ text (file.name) ]

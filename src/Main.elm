@@ -27,17 +27,17 @@ update msg model =
             model
             ! [Cmd.none]
 
-        GetFileContentRequest editorContent ->
-            model
-            ! [getFileContent editorContent]
+        GetFileContentRequest item ->
+            { model | currentFile = item }
+            ! [getFileContent item.fullName]
 
-        GetFileContentResult editorContent (Err _) ->
-            { model | currentPath = editorContent.path }
+        GetFileContentResult (Err _) ->
+            model 
             ! [Cmd.none]
 
-        GetFileContentResult mode (Ok content) ->
-                model
-                ! [ setEditorContent ({ mode | content = content })]
+        GetFileContentResult (Ok content) ->
+            model
+            ! [ setEditorContent ({ mode = model.currentFile.mode, content = content })]
 
         SaveFileContentRequest request ->
             model
@@ -58,7 +58,6 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
     
-
 emptyModel : Model 
 emptyModel = 
     { structure = 
@@ -66,7 +65,7 @@ emptyModel =
         , fullName = ""
         , files = []
         , folders = Folder [] }
-    , currentPath = "" }
+    , currentFile = { mode = "", fullName = "", name = "" } }
 
 init : (Model, Cmd Msg)
 init = 

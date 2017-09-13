@@ -27,18 +27,18 @@ saveFileContent fileContent =
                 , timeout = Nothing
                 , withCredentials = False })
 
-getFileContent : EditorContent -> Cmd Msg
-getFileContent content =
+getFileContent : String -> Cmd Msg
+getFileContent path =
     let 
         url = host ++ "/api/home/getFileContent"
     in
         Http.send
-            (GetFileContentResult { mode = content.mode, path = content.path, content =  ""})
+            GetFileContentResult 
             (Http.request
                 { method = "POST"
                 , headers = [(Http.header "Content-Type" "application/json")]
                 , url = url
-                , body = encodeRequest content.path |>  Http.jsonBody
+                , body = encodeRequest path |>  Http.jsonBody
                 , expect = Http.expectString
                 , timeout = Nothing
                 , withCredentials = False })
