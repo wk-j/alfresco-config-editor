@@ -60,6 +60,7 @@ type HomeController () =
             ".cs"
             ".fs"
             ".md"
+            ".xml"
             ".fsproj"
             ".css"
         ]

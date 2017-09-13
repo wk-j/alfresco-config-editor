@@ -17,14 +17,14 @@ buttons model =
             [
                 div [ class "ui small basic icon buttons" ]
                     [ button [ class dis, onClick (SaveFileContentRequest { path = model.currentFile.fullName, content = model.currentContent }) ]
-                        [ i [ class "save icon" ] [] ]
+                        [ i [ class "pencil icon" ] [] ]
                     ]
             ]
 
 fileItem : FileItem -> Html Msg
 fileItem file = 
     div [ class "item c-file-item", onClick (GetFileContentRequest file) ]
-        [ i [ class "file outline icon" ] []
+        [ i [ class "codepen icon" ] []
           , div [ class "content" ]
                 [ div [ class "header" ] [ text (file.name) ]
                 -- , div [ class "description" ] [ text (file.fullName) ]
@@ -38,7 +38,7 @@ foldersItem (Folder ls) =
 folderItem : Structure -> Html Msg
 folderItem str = 
     div [ class "item" ]
-        [ i [ class "folder icon" ] []
+        [ i [ class "windows icon" ] []
           , div [ class "content" ]
                 [ div [ class "header" ] [ text (str.name) ]
                 , div [ class "list"]
@@ -56,7 +56,7 @@ editorList model =
     in
         div [ class "ui list" ]
             [ div [ class "item" ]
-                [ i [ class "folder icon" ]
+                [ i [ class "windows icon" ]
                     []
                 , div [ class "content" ]
                     [ div [ class "header" ]
