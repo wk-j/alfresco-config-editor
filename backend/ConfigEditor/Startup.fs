@@ -23,6 +23,9 @@ type Startup private () =
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     member this.Configure(app: IApplicationBuilder, env: IHostingEnvironment) =
 
+        app.UseDefaultFiles() |> ignore
+        app.UseStaticFiles() |> ignore
+
         app.UseCors(fun builder ->
             builder.AllowAnyOrigin() |> ignore
             builder.AllowAnyMethod() |> ignore
