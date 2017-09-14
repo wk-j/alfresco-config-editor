@@ -40,6 +40,11 @@ type HomeController () =
 
     let errorContent = "-- error --"
 
+    let root = 
+            let p = System.Environment.GetEnvironmentVariable("ALFRESCO_HOME")
+            if Directory.Exists p then p
+            else DirectoryInfo(".").FullName
+
     let notMatchDir(info: DirectoryInfo) = 
         let names = [
             ".git"
@@ -77,7 +82,6 @@ type HomeController () =
         ]
         format.Any <| Func<_,_>(info.Name.EndsWith)
 
-
     let findMode ext = 
         match ext with
         | ".js" | ".jsx" -> "javascript"
@@ -114,13 +118,17 @@ type HomeController () =
         str.Files <- files.Select(fun x -> File(Name = x.Name, FullName = x.FullName, Mode = findMode (Path.GetExtension x.FullName)) ).ToList()
         (str)
 
+    member private this.IsFileUnderRoot(path: string) = 
+        let file = FileInfo(path).FullName
+        file.Contains root
+
+    member private this.IsFolderUnderRoot(path: string) = 
+        let folder = DirectoryInfo(path).FullName
+        folder.Contains root
+
     [<HttpPost>]
     member this.GetStructures([<FromBody>] req: Query) = 
-        let path = 
-            let p = System.Environment.GetEnvironmentVariable("ALFRESCO_HOME")
-            if Directory.Exists p then p
-            else req.Path
-
+        let path = root
         if req.Path = "/" then
             Folder(Name="</>")
         elif Directory.Exists path then
@@ -131,18 +139,24 @@ type HomeController () =
 
     [<HttpPost>]
     member this.GetFileContent([<FromBody>] req: Query) = 
-        if File.Exists req.Path then
-            File.ReadAllText req.Path
+        if this.IsFileUnderRoot req.Path then
+            if File.Exists req.Path then
+                File.ReadAllText req.Path
+            else
+                "-- error --"
         else
             "-- error --"
 
     [<HttpPost>]
     member this.SaveFileContent([<FromBody>] req: SaveFileRequest) = 
-        if File.Exists req.Path then
-            if req.Content = errorContent then
-                { Success = false; Message = "Invalid content"}
+        if this.IsFileUnderRoot req.Path then
+            if File.Exists req.Path then
+                if req.Content = errorContent then
+                    { Success = false; Message = "Invalid content"}
+                else
+                    File.WriteAllText(req.Path, req.Content) 
+                    { Success = true; Message = "" }
             else
-                File.WriteAllText(req.Path, req.Content) 
-                { Success = true; Message = "" }
+                { Success = false; Message = "File not exist" }
         else
-            { Success = false; Message = "File not exist" }
+            { Success = false; Message = "No way" }
