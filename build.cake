@@ -11,7 +11,8 @@ Task("Watch-Run").Does(() => {
 });
 
 Task("Create-Zip").Does(() => {
-    Zip("dist/Windows", "dist/Windows.zip");
+    Zip("dist/Windows-10", "dist/Windows-10.zip");
+    Zip("dist/Windows-8", "dist/Windows-8.zip");;
     Zip("dist/Mac", "dist/Mac.zip");
     Zip("dist/Linux", "dist/Linux.zip");
 });

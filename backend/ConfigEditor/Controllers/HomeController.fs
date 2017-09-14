@@ -50,6 +50,8 @@ type HomeController () =
             ".git"
             "node_modules"
             "java"
+            "imagemagick"
+            "libreoffice"
             "webapps"
             "libreoffice.app"
             "uninstall.app"
