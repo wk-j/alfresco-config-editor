@@ -1,5 +1,7 @@
 ## Alfresco Config Editor
 
+![](screen/AlfrescoConfigEditor.png)
+
 ## Development
 
 ```bash
@@ -14,4 +16,11 @@ watchman-make -p 'src/*.elm' --make='elm-make src/Main.elm --output=backend/Conf
 
 # start server
 ./build.sh --target Watch-Run
+
+# publish
+# https://docs.microsoft.com/en-us/dotnet/core/rid-catalog
+
+dotnet publish -c release -r win10-x86  -o ../../dist/Windows backend/ConfigEditor
+dotnet publish -c release -r osx-x64    -o ../../dist/Mac     backend/ConfigEditor
+dotnet publish -c release -r ubuntu-x64 -o ../../dist/Linux   backend/ConfigEditor
 ```

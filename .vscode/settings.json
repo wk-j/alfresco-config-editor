@@ -8,7 +8,6 @@
         "**/bin": true,
         "**/obj": true,
         "elm-stuff": true,
-        "tools": true,
-        "dist": true
+        "tools": true
     }
 }

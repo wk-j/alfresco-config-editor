@@ -16,6 +16,9 @@ module Program =
     let BuildWebHost args =
         WebHost
             .CreateDefaultBuilder(args)
+            //.UseContentRoot(Directory.GetCurrentDirectory())
+            //.UseWebRoot()
+            .UseUrls("http://*:5000")
             .UseStartup<Startup>()
             .Build()
 

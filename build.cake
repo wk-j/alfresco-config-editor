@@ -10,5 +10,11 @@ Task("Watch-Run").Does(() => {
      ps("dotnet", "watch run", "backend/ConfigEditor/ConfigEditor.fsproj");
 });
 
+Task("Create-Zip").Does(() => {
+    Zip("dist/Windows", "dist/Windows.zip");
+    Zip("dist/Mac", "dist/Mac.zip");
+    Zip("dist/Linux", "dist/Linux.zip");
+});
+
 var target = Argument("target", "default");
 RunTarget(target);
