@@ -6,19 +6,21 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
-buttons : Model -> Html Msg
-buttons model = 
+
+menu : Model -> Html Msg
+menu model =
     let 
-        dis = 
-            if model.currentContent == "" || model.saving then "ui button disabled"
-            else "ui button"
+        style = if model.currentContent == "" || model.saving then "item disabled"
+              else "item"
+        request = SaveFileContentRequest { path = model.currentFile.fullName, content = model.currentContent }
     in
-        div [ ]
-            [
-                div [ class "ui small basic icon buttons" ]
-                    [ button [ class dis, onClick (SaveFileContentRequest { path = model.currentFile.fullName, content = model.currentContent }) ]
-                        [ i [ class "pencil icon" ] [] ]
+        div []
+            [div [ class "ui vertical icon menu floated right", onClick request ]
+                [ a [ class style ]
+                    [ i [ class "pencil icon" ]
+                        []
                     ]
+                ]
             ]
 
 fileItem : FileItem -> Html Msg
@@ -75,5 +77,5 @@ editorList model =
 editorUi : Model -> Html Msg
 editorUi model = 
     div [] 
-        [ buttons model
+        [ menu model
         , editorList model ]
