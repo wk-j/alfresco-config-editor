@@ -12,7 +12,7 @@ body {
     padding: 20px;
     max-width: 1400px;
 
-     height: 100%; 
+    height: 100%; 
     overflow: hidden;
 
     background: url(images/bg.jpg) no-repeat center center fixed; 
@@ -33,17 +33,34 @@ body {
     display: none; 
 }
 
-.item.c-file-item:hover {
-    color: red;
-    cursor: pointer;
-}
-
 div.CodeMirror {
     height: 100%;
 }
 
 div.ui.segment { 
     padding: 10px;
+}
+
+.h-tree-menu {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.h-tree-segment {
+    position: relative;
+}
+
+.h-tree-wrapper {
+    height:calc(100% - 36px)
+}
+
+.h-tree {
+    height: 100%;
+}
+
+.h-selected-file {
+    background: rgba(202, 228, 236, 0.8);
 }
 
 .ui.grid > .row > .column {
@@ -56,4 +73,20 @@ div.ui.segment {
     padding-bottom: 29px;
     width: 100%;
     height: 100%;
+}
+
+.item.h-file-item {
+    border-radius: 4px;
+}
+
+.ui.list .list > .item.h-file-item {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.item.h-file-item:hover {
+    color: #227E0F;
+    cursor: pointer;
 }

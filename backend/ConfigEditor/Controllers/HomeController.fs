@@ -44,6 +44,10 @@ type HomeController () =
         let names = [
             ".git"
             "node_modules"
+            "java"
+            "webapps"
+            "libreoffice.app"
+            "common"
             "elm-stuff"
             "bin"
             "obj"
@@ -53,8 +57,9 @@ type HomeController () =
     let matchFileName (info: FileInfo) = 
         let format = [
             ".json"
-            ".js"
-            ".html"
+            //".js"
+            //".html"
+            ".properties"
             ".ts"
             ".elm"
             ".cs"
@@ -104,11 +109,16 @@ type HomeController () =
 
     [<HttpPost>]
     member this.GetStructures([<FromBody>] req: Query) = 
+        let path = 
+            let p = System.Environment.GetEnvironmentVariable("ALFRESCO_HOME")
+            if Directory.Exists p then p
+            else req.Path
+
         if req.Path = "/" then
             Folder(Name="</>")
-        elif Directory.Exists req.Path then
+        elif Directory.Exists path then
             let str = Folder()
-            query str req.Path
+            query str path
         else
             Folder(Name="<Empty>")
 

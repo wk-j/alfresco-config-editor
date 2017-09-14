@@ -2,10 +2,8 @@ module View exposing (..)
 
 import Model exposing (..)
 import Html exposing (..)
-
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-
 
 menu : Model -> Html Msg
 menu model =
@@ -14,39 +12,43 @@ menu model =
               else "item"
         request = SaveFileContentRequest { path = model.currentFile.fullName, content = model.currentContent }
     in
-        div []
-            [div [ class "ui vertical icon menu floated right", onClick request ]
+        div [ class "h-tree-menu" ]
+            [ div [ class "ui vertical icon menu", onClick request ]
                 [ a [ class style ]
-                    [ i [ class "pencil icon" ]
+                    [ i [ class "save icon" ]
                         []
                     ]
                 ]
             ]
 
-fileItem : FileItem -> Html Msg
-fileItem file = 
-    div [ class "item c-file-item", onClick (GetFileContentRequest file) ]
-        [ i [ class "codepen icon" ] []
-          , div [ class "content" ]
-                [ div [ class "header" ] [ text (file.name) ]
-                -- , div [ class "description" ] [ text (file.fullName) ]
-                ]
-        ]
+fileItem : Model -> FileItem -> Html Msg
+fileItem model file = 
+    let 
+        style = if model.currentFile.fullName == file.fullName then "item h-file-item h-selected-file"
+                else "item h-file-item"
+    in
+        div [ class style, onClick (GetFileContentRequest file) ]
+            [ i [ class "codepen icon" ] []
+            , div [ class "content" ]
+                    [ div [ class "header" ] [ text (file.name) ]
+                    -- , div [ class "description" ] [ text (file.fullName) ]
+                    ]
+            ]
 
-foldersItem : Folder -> List(Html Msg)
-foldersItem (Folder ls) = 
-    (ls |> List.map folderItem)
+foldersItem : Model -> Folder -> List(Html Msg)
+foldersItem model (Folder ls) = 
+    (ls |> List.map (folderItem model))
 
-folderItem : Structure -> Html Msg
-folderItem str = 
+folderItem : Model -> Structure -> Html Msg
+folderItem model str = 
     div [ class "item" ]
         [ i [ class "windows icon" ] []
           , div [ class "content" ]
                 [ div [ class "header" ] [ text (str.name) ]
                 , div [ class "list"]
                     (List.append
-                        (foldersItem str.folders)
-                        (str.files |> List.map fileItem)
+                        (foldersItem model str.folders)
+                        (str.files |> List.map (fileItem model))
                     )
                 ]
         ]
@@ -56,7 +58,7 @@ editorList model =
     let 
         str = model.structure
     in
-        div [ class "ui list" ]
+        div [ class "ui list h-tree" ]
             [ div [ class "item" ]
                 [ i [ class "windows icon" ]
                     []
@@ -67,8 +69,8 @@ editorList model =
                         [ text (str.fullName) ]
                     , div [ class "list" ]
                         (List.append
-                            (foldersItem model.structure.folders)
-                            (model.structure.files |> List.map fileItem)
+                            (foldersItem model model.structure.folders)
+                            (model.structure.files |> List.map (fileItem model))
                         )
                     ]
                 ]
@@ -76,6 +78,6 @@ editorList model =
 
 editorUi : Model -> Html Msg
 editorUi model = 
-    div [] 
+    div [ class "h-tree-wrapper"] 
         [ menu model
         , editorList model ]
