@@ -60,7 +60,7 @@ editorList model =
     in
         div [ class "ui list h-tree" ]
             [ div [ class "item" ]
-                [ i [ class "windows icon" ]
+                [ i [ class "pocket icon" ]
                     []
                 , div [ class "content" ]
                     [ div [ class "header" ]

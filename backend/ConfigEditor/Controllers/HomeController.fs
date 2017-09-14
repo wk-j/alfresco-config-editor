@@ -47,9 +47,13 @@ type HomeController () =
             "java"
             "webapps"
             "libreoffice.app"
+            "uninstall.app"
             "common"
             "elm-stuff"
-            "bin"
+            "alf_data"
+            "Application Manager.app"
+            "solr4"
+            // "bin"
             "obj"
         ]
         names.All <| Func<_,_>(info.Name.Contains >> not)
@@ -63,6 +67,8 @@ type HomeController () =
             ".ts"
             ".elm"
             ".cs"
+            ".bat"
+            ".sh"
             ".fs"
             ".md"
             ".xml"
@@ -76,6 +82,7 @@ type HomeController () =
         match ext with
         | ".js" | ".jsx" -> "javascript"
         | ".ts" | ".tsx" -> "typescript"
+        | ".sh"  -> "shell"
         | ".css" -> "css"
         | ".properties" -> "properties"
         | ".csproj" | ".fsproj" | "xml" -> "xml"
