@@ -71,16 +71,17 @@ type HomeController () =
             //".js"
             //".html"
             ".properties"
-            ".ts"
+            //".ts"
             ".elm"
-            ".cs"
+            //".cs"
             ".bat"
             ".sh"
             ".fs"
             ".md"
+            ".ps1"
+            ".bat"
             ".xml"
             ".fsproj"
-            ".css"
         ]
         format.Any <| Func<_,_>(info.Name.EndsWith)
 
@@ -88,7 +89,7 @@ type HomeController () =
         match ext with
         | ".js" | ".jsx" -> "javascript"
         | ".ts" | ".tsx" -> "typescript"
-        | ".sh"  -> "shell"
+        | ".sh" | ".bat" -> "shell"
         | ".css" -> "css"
         | ".properties" -> "properties"
         | ".csproj" | ".fsproj" | "xml" -> "xml"
@@ -98,6 +99,7 @@ type HomeController () =
         | ".html" -> "htmlmixed"
         | ".elm" -> "elm"
         | ".md" -> "markdown"
+        | ".ps1" -> "x-powershell"
         | _ -> "xml"
     
     let rec query (str: Folder) path = 
