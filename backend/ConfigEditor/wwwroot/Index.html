@@ -28,8 +28,10 @@
 	<div class="ui grid">
 			<div class="row">
 				<div class="ten wide column">
-					<div class="ui raised segment" style="width:100%; padding:0">
-						<div id="code-editor"></div>
+					<div class="ui raised segment h-code-grid">
+						<div class="ui top right attached label" id="code-title">Code</div>
+						<div id="code-editor">
+						</div>
 					</div>
 				</div>
 				<div class="six wide column">
@@ -40,32 +42,8 @@
 			</div>
 	</div>
 
-	<script>
-		let editor = CodeMirror(document.getElementById("code-editor"), {
-			mode: "javascript",
-			theme: "seti",
-			lineNumbers: true,
-			tabSize: 2
-		});
+	<script src="Start.js"></script>
 
-		let container = document.getElementById("tree-view");
-		let app = Elm.Main.embed(container);
-
-		app.ports.setEditorContent.subscribe((x) => {
-			let content = x.content;
-			let mode = x.mode; 
-
-			editor.setValue(content);
-			editor.setOption("mode", mode);
-		});
-
-		// on and off handler like in jQuery
-		editor.on('change', function(cMirror){
-			let value = cMirror.getValue();
-			app.ports.receiveEditorContent.send(value);
-		});
-
-	</script>
 </body>
 
 </html>

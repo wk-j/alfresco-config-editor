@@ -26,6 +26,7 @@ type alias FileContent =
 
 type alias EditorContent = 
     { content: String
+    , path: String
     , mode: String }
 
 type Msg 
@@ -36,6 +37,7 @@ type Msg
     | SaveFileContentRequest FileContent
     | SaveFileContentResult  (Result Http.Error (String))
     | ReceiveEditorContent String
+    | ReceiveSaveEvent String
 
 
 

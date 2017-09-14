@@ -12,7 +12,7 @@ body {
     padding: 20px;
     max-width: 1400px;
 
-    height: 100%;
+     height: 100%; 
     overflow: hidden;
 
     background: url(images/bg.jpg) no-repeat center center fixed; 
@@ -34,7 +34,7 @@ body {
 }
 
 .item.c-file-item:hover {
-    color: green;
+    color: red;
     cursor: pointer;
 }
 
@@ -49,4 +49,11 @@ div.ui.segment {
 .ui.grid > .row > .column {
     padding-left: 3px;
     padding-right: 3px;
+}
+
+.h-code-grid.ui.raised.segment {
+    padding:0;
+    padding-bottom: 29px;
+    width: 100%;
+    height: 100%;
 }

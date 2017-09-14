@@ -1,3 +1,4 @@
+module Main exposing (..)
 import Html exposing (..)
 import Api exposing (..)
 import Model exposing (..)
@@ -6,74 +7,91 @@ import Editor exposing (..)
 
 main : Program Never Model Msg
 main =
-    Html.program
-        { init = init
-        , view = view
-        , update = update
-        , subscriptions = subscriptions }
+  Html.program
+    { init = init
+    , view = view
+    , update = update
+    , subscriptions = subscriptions
+    }
 
-update : Msg -> Model -> (Model, Cmd Msg)
+
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
-        GetStructuresRequest path ->
-            model
-            ! [getStructures "/Users/wk/Source/project/alfresco-config-editor"]
+  case msg of
+    GetStructuresRequest path ->
+      model
+        ! [ getStructures "/Users/wk/Source/project/alfresco-config-editor" ]
 
-        GetStructuresResult (Ok structure) ->
-            { model | structure = structure }
-            ! [Cmd.none]
-        
-        GetStructuresResult (Err _) ->
-            model
-            ! [Cmd.none]
+    GetStructuresResult (Ok structure) ->
+      { model | structure = structure }
+        ! [ Cmd.none ]
 
-        GetFileContentRequest item ->
-            { model | currentFile = item }
-            ! [getFileContent item.fullName]
+    GetStructuresResult (Err _) ->
+      model
+        ! [ Cmd.none ]
 
-        GetFileContentResult (Err _) ->
-            model 
-            ! [Cmd.none]
+    GetFileContentRequest item ->
+      { model | currentFile = item }
+        ! [ getFileContent item.fullName ]
 
-        GetFileContentResult (Ok content) ->
-            { model | currentContent = "" }
-            ! [ setEditorContent ({ mode = model.currentFile.mode, content = content })]
+    GetFileContentResult (Err _) ->
+      model
+        ! [ Cmd.none ]
 
-        SaveFileContentRequest request ->
-            { model | saving = True }
-            ! [saveFileContent request]
+    GetFileContentResult (Ok content) ->
+      { model | currentContent = "" }
+        ! [ setEditorContent ({ mode = model.currentFile.mode, content = content, path = model.currentFile.fullName }) ]
 
-        SaveFileContentResult (Ok str) ->
-            { model | saving = False }
-            ! [Cmd.none]
+    SaveFileContentRequest request ->
+      { model | saving = True }
+        ! [ showSavingStatus ""
+          , saveFileContent request ]
 
-        SaveFileContentResult (Err str) ->
-            { model | saving = False }
-            ! [Cmd.none]
+    SaveFileContentResult (Ok str) ->
+      { model | saving = False }
+        ! [ Cmd.none ]
 
-        ReceiveEditorContent content ->
-            { model | currentContent = content }
-            ! [Cmd.none]
+    SaveFileContentResult (Err str) ->
+      { model | saving = False }
+        ! [ Cmd.none ]
+
+    ReceiveEditorContent content ->
+      { model | currentContent = content }
+        ! [ Cmd.none ]
+
+    ReceiveSaveEvent _ ->
+      model
+      ! [ showSavingStatus ""
+        , saveFileContent  { path = model.currentFile.fullName, content = model.currentContent } ]
 
 view : Model -> Html Msg
-view model = editorUi model
+view model =
+  editorUi model
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    receiveEditorContent ReceiveEditorContent
-    
-emptyModel : Model 
-emptyModel = 
-    { structure = 
-        { name = ""
-        , fullName = ""
-        , files = []
-        , folders = Folder [] }
-    , currentContent = ""
-    , saving = False
-    , currentFile = { mode = "", fullName = "", name = "" } }
+  Sub.batch
+    [ receiveEditorContent ReceiveEditorContent
+    , receiveSaveEvent ReceiveSaveEvent
+    ]
 
-init : (Model, Cmd Msg)
-init = 
-    emptyModel
-    ! [getStructures "/Users/wk/Source/project/alfresco-config-editor"]
+
+emptyModel : Model
+emptyModel =
+  { structure =
+      { name = ""
+      , fullName = ""
+      , files = []
+      , folders = Folder []
+      }
+  , currentContent = ""
+  , saving = False
+  , currentFile = { mode = "", fullName = "", name = "" }
+  }
+
+
+init : ( Model, Cmd Msg )
+init =
+  emptyModel
+    ! [ getStructures "/Users/wk/Source/project/alfresco-config-editor" ]
+
