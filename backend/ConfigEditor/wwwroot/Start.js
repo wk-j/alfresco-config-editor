@@ -1,6 +1,32 @@
 let container = document.getElementById("tree-view");
 let app = Elm.Main.embed(container);
 
+function smooth() {
+    // Scroll to specific values
+    // scrollTo is the same
+    window.scroll({
+        top: 2500,
+        left: 0,
+        behavior: "smooth"
+    });
+
+    // Scroll certain amounts from current position 
+    window.scrollBy({
+        top: 100, // could be negative value
+        left: 0,
+        behavior: "smooth"
+    });
+
+    // Scroll to a certain element
+    document.querySelector(".CodeMirror").scrollIntoView({
+        behavior: "smooth"
+    });
+
+    document.querySelector("#tree-view").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
 function sendSaveEvent() {
     app.ports.receiveSaveEvent.send("")
 }
@@ -48,3 +74,6 @@ editor.on('change', function (cMirror) {
     let value = cMirror.getValue();
     app.ports.receiveEditorContent.send(value);
 });
+
+
+smooth();
